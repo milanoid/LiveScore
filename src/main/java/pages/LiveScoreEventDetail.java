@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.SlowLoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Clock;
-import java.util.List;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -22,7 +21,7 @@ public class LiveScoreEventDetail extends SlowLoadableComponent<LiveScoreEventDe
     WebElement footer;
 
     @FindBy(xpath = "//div[contains(@class, 'styled__MatchScoreRow')]")
-    List<WebElement> events;
+    WebElement event;
 
     /**
      * The page opens in a new window
@@ -47,7 +46,7 @@ public class LiveScoreEventDetail extends SlowLoadableComponent<LiveScoreEventDe
     protected void isLoaded() throws Error {
         try {
             footer.isDisplayed();
-            events.get(1).isDisplayed();
+            event.isDisplayed();
         } catch (Exception e) {
             throw new Error(e.getMessage());
         }

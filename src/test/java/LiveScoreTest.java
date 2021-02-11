@@ -32,25 +32,38 @@ public class LiveScoreTest {
 
     @Test
     public void eventInfoTest() {
+        // score is a bit tricky - a match yet to be played has "? - ?" instead of score result
+        // at the Main page and "vs" in the detail, this would require additional logic
+        // hence checking only home and away team names
+
         LiveScoreMainPage mainPage = new LiveScoreMainPage(driver).get();
         String homeAtMainPage = mainPage.getSecondEventDetail("home");
-        String scoreAtMainPage = mainPage.getSecondEventDetail("score");
         String awayAtMainPage = mainPage.getSecondEventDetail("away");
 
         LiveScoreEventDetail pageDetail = mainPage.openSecondEventDetail();
         String homeAtDetailPage = pageDetail.getEventDetail("home");
-        String scoreAtDetailPage = pageDetail.getEventDetail("score");
         String awayAtDetailPage = pageDetail.getEventDetail("away");
 
         assert (homeAtMainPage.equals(homeAtDetailPage));
-        assert (scoreAtMainPage.equals(scoreAtDetailPage));
         assert (awayAtMainPage.equals(awayAtDetailPage));
     }
 
-//    @Test
-//    public void favouritesTest() {
-//
-//    }
+    @Test
+    public void favouritesTest() {
+        LiveScoreMainPage mainPage = new LiveScoreMainPage(driver).get();
+        mainPage.setSecondEventAsFavourite();
+
+        String homeTeamAtMainPage = mainPage.getSecondEventDetail("home");
+        String awayTeamAtMainPage = mainPage.getSecondEventDetail("away");
+
+        mainPage.openFavourites();
+        String homeTeamAtFavourites = mainPage.getFavourites("home");
+        String awayTeamAtFavourites = mainPage.getFavourites("away");
+
+        assert (homeTeamAtMainPage.equals(homeTeamAtFavourites));
+        assert (awayTeamAtMainPage.equals(awayTeamAtFavourites));
+
+    }
 
     @After
     public void tearDown() {
